@@ -1,11 +1,15 @@
-import React,{Fragment} from 'react'
+import React,{Fragment,Suspense,lazy} from 'react'
 import MasterLayout from './../components/MasterLayout/MasterLayout';
+import LazyLoader from '../components/MasterLayout/LazyLoader';
+const Profile = lazy(()=>import('../components/Profile/Profile'));
 
 export default function ProfilePage() {
     return ( 
       <Fragment>
         <MasterLayout>
-          <h1>ProfilePage</h1>
+          <Suspense fallback={<LazyLoader/>}>
+              <Profile/>
+          </Suspense>
         </MasterLayout>
       </Fragment>
     )

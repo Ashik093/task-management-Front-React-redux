@@ -12,6 +12,8 @@ import RegistrationPage from './pages/RegistrationPage';
 import ForgetPasswordPage from './pages/ForgetPasswordPage';
 import NotfoundPage from './pages/NotfoundPage';
 import FullscreenLoader from './components/MasterLayout/FullscreenLoader';
+import { ToastContainer } from 'react-toastify';
+
 
 function App() {
   return (
@@ -33,6 +35,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <FullscreenLoader/>
+      <ToastContainer />
     </Fragment>
   );
 }
