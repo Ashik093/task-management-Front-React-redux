@@ -2,14 +2,48 @@ import React from 'react'
 import { Container } from 'react-bootstrap';
 import { Fragment } from 'react';
 import {AiOutlineCalendar, AiOutlineDelete,AiOutlineEdit} from "react-icons/ai";
+import { useEffect } from 'react';
+import { GetTaskByStatus } from '../../services/Service';
+import { useSelector } from 'react-redux';
+import { DeleteToDo } from '../../helper/DeleteAlert';
+import { UpdateToDo } from '../../helper/UpdateAlert';
 
 export default function New() {
+  useEffect(()=>{
+    GetTaskByStatus("New")
+  },[])
+  const task = useSelector((state)=>state.task.task)
+  const Delete=(id)=>{
+    let data = {
+      _id:id
+    }
+    DeleteToDo(data).then((result)=>{
+      if(result){
+        GetTaskByStatus("New")
+      }
+      
+    })
+  }
+
+  const Update=(id,status)=>{
+    let data = {
+      _id:id,
+      status:status
+    }
+    UpdateToDo(data).then((result)=>{
+      if(result){
+        GetTaskByStatus("New")
+      }
+     
+
+    })
+  }
   return (
     <Fragment>
       <Container fluid={true} className="content-body">
         <div className="row p-0 m-0">
           <div className="col-12 col-md-6 col-lg-8 px-3">
-            <h5>Task Completed</h5>
+            <h5>Task New</h5>
           </div>
           <div className="col-12 float-end col-md-6 col-lg-4 px-2">
             <div className="row">
@@ -23,21 +57,26 @@ export default function New() {
           </div>
         </div>
         <div className="row p-0 m-0">
-          
-              <div  className="col-12 col-lg-4 col-sm-6 col-md-4  p-2">
-                <div className="card h-100">
-                  <div className="card-body">
-                    <h6 className="animated fadeInUp">fdgh</h6>
-                    <p className="animated fadeInUp">fdgh fd ghfdh fdgh fdhfgdh dfghfgdh fdghfgd hfgdh</p>
-                    <p className="m-0 animated fadeInUp p-0">
-                      <AiOutlineCalendar /> 45/34/3434
-                      <a  className="icon-nav text-primary mx-1"><AiOutlineEdit /></a>
-                      <a className="icon-nav text-danger mx-1"><AiOutlineDelete /></a>
-                      <a className="badge float-end bg-primary">completed</a>
-                    </p>
-                  </div>
-                </div>
+        {
+          task.map((item,i)=>
+            <div key={i.toString()}  className="col-12 col-lg-4 col-sm-6 col-md-4  p-2">
+            <div className="card h-100">
+              <div className="card-body">
+                <h6 className="animated fadeInUp">{item.title}</h6>
+                <p className="animated fadeInUp">{item.description}</p>
+                <p className="m-0 animated fadeInUp p-0">
+                  <AiOutlineCalendar /> {item.createdAt}
+                  <a  className="icon-nav text-primary mx-1" onClick={Update.bind(this,item._id,item.status)}><AiOutlineEdit /></a>
+                  <a className="icon-nav text-danger mx-1" onClick={Delete.bind(this,item._id)}><AiOutlineDelete /></a>
+                  <a className="badge float-end bg-primary">{item.status}</a>
+                </p>
               </div>
+            </div>
+          </div>
+          )
+        }
+          
+              
 
         </div>
       </Container>

@@ -6,6 +6,7 @@ import {BsHourglass, BsListNested} from "react-icons/bs";
 import logo from "../../assets/images/logo.svg";
 import {MdOutlineCancelPresentation} from "react-icons/md";
 import {RiDashboardLine} from "react-icons/ri";
+import { removeSession } from "../../helper/SessionHelper";
 
 
 
@@ -31,7 +32,9 @@ export default function MasterLayout(props){
         }
     };
 
-
+    const logout = ()=>{
+        removeSession()
+    }
 
     return (
         <Fragment>
@@ -55,9 +58,9 @@ export default function MasterLayout(props){
                                     <AiOutlineUser className="side-bar-item-icon" />
                                     <span className="side-bar-item-caption">Profile</span>
                                 </NavLink>
-                                <a   className="side-bar-item">
+                                <a   className="side-bar-item" onClick={logout}>
                                     <AiOutlineLogout className="side-bar-item-icon" />
-                                    <span className="side-bar-item-caption">Logout</span>
+                                    <span className="side-bar-item-caption" >Logout</span>
                                 </a>
                             </div>
                         </div>

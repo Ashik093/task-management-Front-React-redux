@@ -1,9 +1,12 @@
 import React from 'react'
 import { useRef } from 'react';
+import { useNavigate } from "react-router-dom";
 import { errorToast, isEmail, isEmpty, isFitPasswordLength, isPhone, successToast } from '../../helper/FormHelper';
+import { UserRegistrationRequest } from '../../services/Service';
 
 export default function Registration() {
   let emailRef,firstNameRef,lastNameRef,mobileRef,passwordRef = useRef()
+  const navigate = useNavigate();
   const registration=()=>{
     let data = {
         email: emailRef.value,
@@ -31,7 +34,11 @@ export default function Registration() {
       errorToast('Password Length Must Be 5 To 10 Character.')
     }
     else{
-      successToast('Submitted')
+      UserRegistrationRequest(data).then((result)=>{
+        if(result){
+          navigate("/Login");
+        }
+      })
     }
   }
   
